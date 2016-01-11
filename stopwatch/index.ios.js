@@ -16,14 +16,11 @@ var StopWatch = React.createClass({
                         00:00:00
                     </Text>
                 </View>
-
                 <View style={this.border('green')}>
                     {this.startStopFunction()}
                     {this.lapButton()}
                 </View>
-
             </View>
-
             <View style={[styles.footer,this.border('blue')]}>
                 <Text>
                     I am a list of Laps
