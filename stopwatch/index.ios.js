@@ -1,53 +1,39 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
 var React = require('react-native');
 var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
+    Text,
+    View,
+    AppRegistry
 } = React;
 
-var stopwatch = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
+var StopWatch = React.createClass({
+    render: function() {
+        return <View>
+            <Text>
+                00:00:00
+            </Text>
+            {this.startStopFunction()}
+            {this.lapButton()}
+        </View>
+    },
+    startStopFunction:function(){
+        return <View>
+            <Text>
+                Start
+            </Text>
+        </View>
+    },
+    lapButton:function(){
+        return <View>
+            <Text>
+                Lap
+            </Text>
+        </View>
+    }
+
 });
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+// AppRegistry.registerComponent('stopwatch',function(){
+//     return StopWatch;
+// });
 
-AppRegistry.registerComponent('stopwatch', () => stopwatch);
+AppRegistry.registerComponent('stopwatch', () => StopWatch);
