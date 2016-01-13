@@ -1,4 +1,5 @@
 var React = require('react-native');
+var formatTime = require('minutes-seconds-milliseconds');
 var {
     Text,
     View,
@@ -10,24 +11,25 @@ var {
 var StopWatch = React.createClass({
     getInitialState:function() {
         return {
-            timeElapsed:null
+            timeElapsed:null,
+            running:false
         }
     },
     render: function() {
         return <View style={styles.container}>
 
-            <View style={[styles.header,this.border('yellow')]}>
-                <View style={[styles.timerWrapper,this.border('red')]}>
-                    <Text >
-                        00:00:00
+            <View style={styles.header}>
+                <View style={styles.timerWrapper}>
+                    <Text style={styles.timer}>
+                        {formatTime(this.state.timeElapsed)}
                     </Text>
                 </View>
-                <View style={[this.border('green'),styles.buttonWrapper]}>
+                <View style={styles.buttonWrapper}>
                     {this.startStopFunction()}
                     {this.lapButton()}
                 </View>
             </View>
-            <View style={[styles.footer,this.border('blue')]}>
+            <View style={styles.footer}>
                 <Text>
                     I am a list of Laps
                 </Text>
@@ -36,30 +38,50 @@ var StopWatch = React.createClass({
         </View>
     },
     startStopFunction:function(){
+        var style = this.state.running ? styles.stopButton : styles.startButton;
+
         return <TouchableHighlight
             underlayColor='gray'
             onPress={this.handleStartPress}
+            style={[styles.button,style]}
             >
             <Text>
-                Start
+                {this.state.running ? 'Stop' : 'Start'}
             </Text>
         </TouchableHighlight>
     },
     handleStartPress:function(){
-        var startTime = new Date();
-        setInterval(() => {
+
+        if(this.state.running) {
+            //is the timer running?
+            clearInterval(this.interval);
             this.setState({
-                timeElapsed: new Date() - startTime
-            },30);
+                running: false
+            });
+            return
         }
+
+        var startTime = new Date();
+
+        this.interval = setInterval(
+            () => {
+                this.setState({
+                    timeElapsed:new Date() - startTime,
+                    running:true
+                });
+            },1
+        );
 
     },
     lapButton:function(){
-        return <View>
+        return <TouchableHighlight
+            underlayColor='gray'
+            style={styles.button}
+            >
             <Text>
                 Lap
             </Text>
-        </View>
+        </TouchableHighlight>
     },
     border:function(color){
         return {
@@ -95,6 +117,23 @@ var styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent: 'space-around',
         alignItems: 'center'
+    },
+    timer: {
+        fontSize:60
+    },
+    button: {
+        borderWidth: 2,
+        height: 100,
+        width: 100,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    startButton: {
+        borderColor: '#00cc00'
+    },
+    stopButton: {
+        borderColor: '#cc0000'
     }
 });
 
