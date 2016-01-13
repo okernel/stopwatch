@@ -2,21 +2,27 @@ var React = require('react-native');
 var {
     Text,
     View,
+    TouchableHighlight,
     AppRegistry,
     StyleSheet
 } = React;
 
 var StopWatch = React.createClass({
+    getInitialState:function() {
+        return {
+            timeElapsed:null
+        }
+    },
     render: function() {
         return <View style={styles.container}>
 
             <View style={[styles.header,this.border('yellow')]}>
-                <View style={this.border('red')}>
+                <View style={[styles.timerWrapper,this.border('red')]}>
                     <Text >
                         00:00:00
                     </Text>
                 </View>
-                <View style={this.border('green')}>
+                <View style={[this.border('green'),styles.buttonWrapper]}>
                     {this.startStopFunction()}
                     {this.lapButton()}
                 </View>
@@ -30,11 +36,23 @@ var StopWatch = React.createClass({
         </View>
     },
     startStopFunction:function(){
-        return <View>
+        return <TouchableHighlight
+            underlayColor='gray'
+            onPress={this.handleStartPress}
+            >
             <Text>
                 Start
             </Text>
-        </View>
+        </TouchableHighlight>
+    },
+    handleStartPress:function(){
+        var startTime = new Date();
+        setInterval(() => {
+            this.setState({
+                timeElapsed: new Date() - startTime
+            },30);
+        }
+
     },
     lapButton:function(){
         return <View>
@@ -66,6 +84,17 @@ var styles = StyleSheet.create({
     },
     footer: { //Blue
         flex:1
+    },
+    timerWrapper: {
+        flex:5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    buttonWrapper: {
+        flex:3,
+        flexDirection:'row',
+        justifyContent: 'space-around',
+        alignItems: 'center'
     }
 });
 
