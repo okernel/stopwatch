@@ -105,7 +105,9 @@ var styles = StyleSheet.create({
         flex:1
     },
     footer: { //Blue
-        flex:1
+        flex:1,
+        alignItems: 'flex-start',
+
     },
     timerWrapper: {
         flex:5,
@@ -135,6 +137,7 @@ var styles = StyleSheet.create({
     stopButton: {
         borderColor: '#cc0000'
     }
+
 });
 
 AppRegistry.registerComponent('stopwatch', () => StopWatch);
